@@ -1,0 +1,46 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Unused/Duplicate Root Files
+Master_SEO_Prompt.md
+Sahil_Gupta_Portfolio_PRD_v1.md
+transcript_extract.txt
+user_message.json
+Refrences/
+scratch/
+Hero.mp4
+favicon.png
+herocyber.png
+herolast.png
+
+# Unused Public Assets
+public/2FinalPic.png
+public/FinalPic-Photoroom.png
+public/FinalPic.png
+public/brand-logo.png
+public/hero-last.png
+public/transparentLogo.png
+public/transparentLogoBlk.png

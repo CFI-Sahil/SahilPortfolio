@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-red: #AF0E06;
+  --color-page: #F5F1EA;
+  --color-primary: #0A0A0A;
+  --color-secondary: #333333;
+  --color-muted: #666666;
+  --color-surface: #FFFDFC;
+  --color-off-white: #F5F1EA;
+  --color-near-black: #0A0A0A;
+
+  --font-display: "Oswald", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-editorial: "Oswald", sans-serif;
+}
+
+:root {
+  /* Global horizontal page gutter: ~20-24px mobile, ~32-48px tablet, ~60-72px desktop */
+  --page-padding: clamp(20px, 4.5vw, 72px);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #F5F1EA;
+    color: #0A0A0A;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: #0A0A0A;
+  }
+}
+
+.page-container {
+  width: 100%;
+  padding-left: var(--page-padding);
+  padding-right: var(--page-padding);
+}
+
+/* Custom utility scrollbar hiding */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* React Bits LogoLoop Styles */
+@keyframes logoloop-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.logo-loop-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black clamp(20px, 5vw, 60px),
+    black calc(100% - clamp(20px, 5vw, 60px)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black clamp(20px, 5vw, 60px),
+    black calc(100% - clamp(20px, 5vw, 60px)),
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-loop-mask > div {
+    animation-play-state: paused !important;
+  }
+}
+
