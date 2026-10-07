@@ -12,6 +12,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.wrangler
+.wrangler/*
 
 # Editor directories and files
 .vscode/*
@@ -24,23 +26,28 @@ dist-ssr
 *.sln
 *.sw?
 
-# Unused/Duplicate Root Files
+# Unused Large Videos & Media at Root
+FinalWeb.mp4
+Hero.mp4
+herocyber.png
+herolast.png
+favicon.png
+
+# Documentation & Temporary Internal Files
 Master_SEO_Prompt.md
 Sahil_Gupta_Portfolio_PRD_v1.md
 transcript_extract.txt
 user_message.json
 Refrences/
 scratch/
-Hero.mp4
-favicon.png
-herocyber.png
-herolast.png
 
-# Unused Public Assets
-public/2FinalPic.png
-public/FinalPic-Photoroom.png
+# Unused Public Assets (Not used by the portfolio)
 public/FinalPic.png
-public/brand-logo.png
+public/FinalPic-Photoroom.png
+public/2FinalPic.png
 public/hero-last.png
+public/herocyber.png
+public/herolast.png
+public/brand-logo.png
 public/transparentLogo.png
 public/transparentLogoBlk.png

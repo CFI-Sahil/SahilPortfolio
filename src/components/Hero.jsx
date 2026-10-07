@@ -246,6 +246,7 @@ export default function Hero({
       <video
         ref={videoRef}
         src="/Hero.mp4"
+        poster="/Hero-poster.webp"
         playsInline
         preload="auto"
         onPlay={() => setIsPlaying(true)}
@@ -269,24 +270,24 @@ export default function Hero({
       <div className="relative z-10 w-full h-full flex flex-col justify-center px-[var(--page-padding)] pt-16 sm:pt-12 pointer-events-none">
         <div className="w-full max-w-xl md:max-w-2xl lg:max-w-[48%] text-left space-y-6 sm:space-y-7 pointer-events-auto">
           {/* Main Headline (Masked Line-by-Line Reveal) */}
-          <div className="space-y-1 sm:space-y-2">
-            <div className="overflow-hidden">
-              <h1
+          <h1 className="space-y-1 sm:space-y-2 m-0 p-0 font-normal">
+            <span className="block overflow-hidden">
+              <span
                 ref={headlineLine1Ref}
-                className="font-display text-[clamp(2.5rem,5.5vw,5.25rem)] font-bold tracking-tight text-white leading-[1.05] will-change-transform opacity-0"
+                className="block font-display text-[clamp(2.5rem,5.5vw,5.25rem)] font-bold tracking-tight text-white leading-[1.05] will-change-transform opacity-0"
               >
                 FULL-STACK
-              </h1>
-            </div>
-            <div className="overflow-hidden">
-              <h1
+              </span>
+            </span>
+            <span className="block overflow-hidden">
+              <span
                 ref={headlineLine2Ref}
-                className="font-display text-[clamp(2.5rem,5.5vw,5.25rem)] font-bold tracking-tight text-white leading-[1.05] will-change-transform opacity-0"
+                className="block font-display text-[clamp(2.5rem,5.5vw,5.25rem)] font-bold tracking-tight text-white leading-[1.05] will-change-transform opacity-0"
               >
                 AI DEVELOPER
-              </h1>
-            </div>
-          </div>
+              </span>
+            </span>
+          </h1>
 
           {/* Supporting Copy */}
           <div className="max-w-md sm:max-w-lg">

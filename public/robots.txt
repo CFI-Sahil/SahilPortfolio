@@ -1,0 +1,6 @@
+# robots.txt for Sahil Gupta Portfolio
+User-agent: *
+Allow: /
+
+# Sitemap location (update domain upon live deployment)
+Sitemap: https://sahilgupta.dev/sitemap.xml

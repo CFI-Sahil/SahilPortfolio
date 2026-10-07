@@ -18,7 +18,7 @@ const round = (v, precision = 3) => parseFloat(v.toFixed(precision));
 const adjust = (v, fMin, fMax, tMin, tMax) => round(tMin + ((tMax - tMin) * (v - fMin)) / (fMax - fMin));
 
 const ProfileCardComponent = ({
-  avatarUrl = '/about-portrait.jpg',
+  avatarUrl = '/about-portrait.webp',
   iconUrl = '',
   grainUrl = '',
   innerGradient,
@@ -479,6 +479,7 @@ const ProfileCardComponent = ({
                 src={avatarUrl}
                 alt={`${name || 'Sahil Gupta'} avatar`}
                 loading="lazy"
+                decoding="async"
                 style={{
                   height: '100%',
                   transformOrigin: '50% 100%',
@@ -522,6 +523,7 @@ const ProfileCardComponent = ({
                         src={miniAvatarUrl || avatarUrl}
                         alt={`${name || 'User'} mini avatar`}
                         loading="lazy"
+                        decoding="async"
                         style={{ display: 'block', gridArea: 'auto', borderRadius: '50%', pointerEvents: 'auto' }}
                         onError={e => {
                           const t = e.target;

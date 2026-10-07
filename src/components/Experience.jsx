@@ -409,17 +409,20 @@ export default function Experience() {
           </div>
 
           <a
-            href="/Zeex Certificate.png"
+            href="/Zeex Certificate.webp"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative block w-full border border-[#FFFFFF]/10 rounded-xl overflow-hidden bg-[#FFFFFF]/[0.02] p-4 sm:p-8 transition-all duration-500 hover:border-brand-red/40 hover:bg-[#FFFFFF]/[0.04]"
           >
             <div className="relative w-full aspect-[1.414/1] bg-[#0A0A0A] overflow-hidden rounded shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] border border-[#FFFFFF]/5">
               <img
-                src="/Zeex Certificate.png"
+                src="/Zeex Certificate.webp"
                 alt="Zeex AI Artificial Intelligence Internship Certificate - Sahil Gupta"
                 className="w-full h-full object-contain"
                 loading="lazy"
+                decoding="async"
+                width="1000"
+                height="707"
               />
             </div>
 

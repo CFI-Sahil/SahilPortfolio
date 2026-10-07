@@ -82,6 +82,14 @@ export default function App() {
         onComplete={handlePreloaderComplete}
       />
 
+      {/* Skip to Content for Accessibility */}
+      <a
+        href="#hero"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-[#AF0E06] focus:text-white focus:rounded-md focus:font-medium focus:shadow-lg focus:outline-none"
+      >
+        Skip to main content
+      </a>
+
       {/* 2. Fixed Single-Page Navbar (Transparent over Hero -> Warm off-white blur on scroll) */}
       <Navbar isVisible={navbarVisible} />
 

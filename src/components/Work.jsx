@@ -181,7 +181,15 @@ export default function Work() {
                   <div className="w-2.5 h-2.5 rounded-full bg-[#E0D7C6]"></div>
                 </div>
                 <div className="relative w-full bg-white overflow-hidden">
-                  <img src="/UrbanIQ Web.png" alt="UrbanIQ Web Dashboard" className="w-full h-auto block" />
+                  <img
+                    src="/UrbanIQ Web.webp"
+                    alt="UrbanIQ Web Dashboard"
+                    loading="lazy"
+                    decoding="async"
+                    width="1520"
+                    height="790"
+                    className="w-full h-auto block"
+                  />
                 </div>
               </div>
               {/* Mobile App Viewport with CSS Mobile Frame */}
@@ -189,7 +197,15 @@ export default function Work() {
                 <div className="bg-[#0A0A0A] rounded-[2rem] border-[6px] md:border-[8px] border-[#0A0A0A] shadow-2xl overflow-hidden relative">
                   {/* Subtle mobile notch */}
                   <div className="absolute top-0 inset-x-0 h-3 bg-[#0A0A0A] z-30 rounded-b-lg w-1/3 mx-auto"></div>
-                  <img src="/UrbanIQ App.png" alt="UrbanIQ Mobile Interface" className="w-full h-auto drop-shadow-2xl" />
+                  <img
+                    src="/UrbanIQ App.webp"
+                    alt="UrbanIQ Mobile Interface"
+                    loading="lazy"
+                    decoding="async"
+                    width="478"
+                    height="790"
+                    className="w-full h-auto drop-shadow-2xl"
+                  />
                 </div>
               </div>
             </div>
@@ -206,7 +222,13 @@ export default function Work() {
                     </span>
                   ))}
                 </div>
-                <a href="#" className="inline-flex items-center gap-2 font-editorial text-sm tracking-widest text-[#0A0A0A] uppercase font-bold hover:text-brand-red transition-colors md:self-end group/btn">
+                <a
+                  href="https://github.com/cfi-sahil"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Explore UrbanIQ Road Monitoring Project on GitHub"
+                  className="inline-flex items-center gap-2 font-editorial text-sm tracking-widest text-[#0A0A0A] uppercase font-bold hover:text-brand-red transition-colors md:self-end group/btn"
+                >
                   EXPLORE PROJECT
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform"><path d="M7 17l9.2-9.2M17 17V7H7" /></svg>
                 </a>
@@ -245,7 +267,15 @@ export default function Work() {
             {/* AI Audit Portrait Viewport */}
             <SpotlightCard className="project-viewport w-full lg:w-7/12 relative group bg-[#0A0A0A] rounded-2xl overflow-hidden flex items-center justify-center p-3 md:p-4" spotlightColor="rgba(255, 255, 255, 0.08)" spotlightSize={400}>
               <div className="w-full relative rounded-xl overflow-hidden shadow-2xl bg-[#0A0A0A] transform transition-transform duration-1000 group-hover:-translate-y-1">
-                <img src="/AIAudit.png" alt="AI Audit Interface" className="w-full h-auto block" />
+                <img
+                  src="/AIAudit.webp"
+                  alt="AI Audit Interface"
+                  loading="lazy"
+                  decoding="async"
+                  width="1522"
+                  height="790"
+                  className="w-full h-auto block"
+                />
               </div>
             </SpotlightCard>
           </div>
@@ -290,7 +320,15 @@ export default function Work() {
                 <div className="w-2 h-2 rounded-full bg-[#444444]"></div>
               </div>
               <div className="w-full relative overflow-hidden bg-[#0A0A0A]">
-                <img src="/Alphaone.png" alt="Alphaone Fitness Club Website" className="w-full h-auto block" />
+                <img
+                  src="/Alphaone.webp"
+                  alt="Alphaone Fitness Club Website"
+                  loading="lazy"
+                  decoding="async"
+                  width="1535"
+                  height="789"
+                  className="w-full h-auto block"
+                />
               </div>
             </div>
           </SpotlightCard>
@@ -326,7 +364,15 @@ export default function Work() {
                   <div className="w-2.5 h-2.5 rounded-full bg-[#E0D7C6]"></div>
                 </div>
                 <div className="w-full relative overflow-hidden bg-white">
-                  <img src="/SpImpressionHub.png" alt="SP Impression Hub Website" className="w-full h-auto block" />
+                  <img
+                    src="/SpImpressionHub.webp"
+                    alt="SP Impression Hub Website"
+                    loading="lazy"
+                    decoding="async"
+                    width="1535"
+                    height="790"
+                    className="w-full h-auto block"
+                  />
                 </div>
               </div>
             </div>
@@ -350,7 +396,15 @@ export default function Work() {
                   <div className="w-2 h-2 rounded-full bg-[#D8D3C8]"></div>
                 </div>
                 <div className="w-full relative overflow-hidden bg-white">
-                  <img src="/Ecmacom.png" alt="Ecmacom E-commerce Interface" className="w-full h-auto block" />
+                  <img
+                    src="/Ecmacom.webp"
+                    alt="Ecmacom E-commerce Interface"
+                    loading="lazy"
+                    decoding="async"
+                    width="1518"
+                    height="790"
+                    className="w-full h-auto block"
+                  />
                 </div>
               </div>
             </div>

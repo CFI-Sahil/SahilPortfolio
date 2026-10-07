@@ -157,11 +157,13 @@ export default function Preloader({ onRevealStart, onComplete }) {
             className="flex items-center gap-4 sm:gap-6 md:gap-8 will-change-transform opacity-0"
           >
             <img 
-              src="/transparentLogoDark.png" 
-              alt="Logo" 
+              src="/transparentLogoDark.webp" 
+              alt="Sahil Gupta Monogram Logo" 
+              width="128"
+              height="128"
               className="w-[clamp(2.5rem,7vw,8rem)] h-auto object-contain"
             />
-            <h1
+            <div
               className="font-editorial font-bold tracking-tight text-[#0A0A0A] uppercase whitespace-nowrap leading-none m-0"
               style={{
                 fontFamily: "'Oswald', sans-serif",
@@ -170,7 +172,7 @@ export default function Preloader({ onRevealStart, onComplete }) {
               }}
             >
               SAHIL GUPTA
-            </h1>
+            </div>
           </div>
         </div>
       </div>

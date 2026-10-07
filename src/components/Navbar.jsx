@@ -215,15 +215,17 @@ export default function Navbar({ isVisible = true }) {
               }`}
           >
             <img
-              src="/transparentLogoDark.png"
-              alt="SG Logo"
+              src="/transparentLogoDark.webp"
+              alt="Sahil Gupta Monogram"
+              width="32"
+              height="32"
               className="h-7 sm:h-8 w-auto max-w-[32px] object-contain transition-transform duration-300 group-hover:scale-105"
             />
             <span>SAHIL GUPTA</span>
           </a>
 
           {/* Desktop Center Navigation */}
-          <nav className="hidden md:flex items-center gap-7 lg:gap-9">
+          <nav aria-label="Main Navigation" className="hidden md:flex items-center gap-7 lg:gap-9">
             {NAV_LINKS.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
@@ -294,7 +296,7 @@ export default function Navbar({ isVisible = true }) {
               <span className="font-editorial text-xs tracking-widest text-brand-red uppercase">
                 Navigation
               </span>
-              <div className="flex flex-col space-y-5">
+              <nav aria-label="Mobile Navigation" className="flex flex-col space-y-5">
                 {NAV_LINKS.map((link) => {
                   const isActive = activeSection === link.href.substring(1);
                   return (
@@ -309,7 +311,7 @@ export default function Navbar({ isVisible = true }) {
                     </a>
                   );
                 })}
-              </div>
+              </nav>
             </div>
 
             <div className="pt-8 border-t border-[#0A0A0A]/10">
