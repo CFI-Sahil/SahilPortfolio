@@ -22,23 +22,115 @@ export default function Hero({
   const hasStartedVideoRef = useRef(false);
   // Manual pause guard: if user explicitly clicked Pause, never auto-resume on scroll
   const userManuallyPausedRef = useRef(false);
+  // One-time audio activation guard: fresh reload always starts muted
+  const audioUnlockedRef = useRef(false);
+  const cleanupListenersRef = useRef(null);
+  const attachListenersRef = useRef(null);
+
+  // Interaction event list covering all user interactions from page load until video finishes
+  const INTERACTION_EVENTS = [
+    'pointermove',
+    'mousemove',
+    'pointerdown',
+    'click',
+    'touchstart',
+    'keydown',
+    'wheel',
+    'scroll',
+  ];
+
+  // Listen for user's first interaction from page load until Hero video finishes
+  useEffect(() => {
+    if (videoEnded || audioUnlockedRef.current) return;
+
+    let isCleanedUp = false;
+
+    const cleanupListeners = () => {
+      if (isCleanedUp) return;
+      isCleanedUp = true;
+      INTERACTION_EVENTS.forEach((evt) => {
+        window.removeEventListener(evt, handleFirstInteraction, true);
+        document.removeEventListener(evt, handleFirstInteraction, true);
+      });
+    };
+
+    cleanupListenersRef.current = cleanupListeners;
+
+    const handleFirstInteraction = async (e) => {
+      if (audioUnlockedRef.current || videoEnded) return;
+
+      // If user clicked the play controller directly, let handleTogglePlay handle it
+      if (
+        e &&
+        e.type === 'click' &&
+        e.target &&
+        e.target.closest &&
+        e.target.closest('#hero-play-controller')
+      ) {
+        return;
+      }
+
+      const video = videoRef.current;
+      if (!video) return;
+
+      // Preserve current playback position seamlessly: do not reset currentTime, do not reload
+      video.muted = false;
+      video.volume = 1;
+
+      if (!video.paused && !video.ended) {
+        // Video is actively playing (e.g. at 5.2s)
+        try {
+          await video.play();
+          audioUnlockedRef.current = true;
+          cleanupListeners();
+          setIsPlaying(true);
+        } catch {
+          // If browser policy rejected audible playback for this specific interaction event:
+          // Keep playing muted seamlessly so the video never freezes or pauses
+          video.muted = true;
+          video.play().catch(() => {});
+          // Do not mark audioUnlockedRef or remove listeners yet; subsequent interaction will unlock
+        }
+      } else if (shouldPlayVideo && !video.ended && !userManuallyPausedRef.current) {
+        // Video was supposed to be playing but was paused: resume seamlessly
+        try {
+          await video.play();
+          audioUnlockedRef.current = true;
+          cleanupListeners();
+          setIsPlaying(true);
+        } catch {
+          video.muted = true;
+          video.play().catch(() => {});
+        }
+      } else {
+        // Interacted during preloader before video starts: unlock audio immediately
+        audioUnlockedRef.current = true;
+        cleanupListeners();
+      }
+    };
+
+    const attachListeners = () => {
+      isCleanedUp = false;
+      INTERACTION_EVENTS.forEach((evt) => {
+        window.addEventListener(evt, handleFirstInteraction, { passive: true, capture: true });
+        document.addEventListener(evt, handleFirstInteraction, { passive: true, capture: true });
+      });
+    };
+
+    attachListenersRef.current = attachListeners;
+    attachListeners();
+
+    return cleanupListeners;
+  }, [videoEnded, shouldPlayVideo]);
 
   // Controlled video start: triggered solely when preloader signals shouldPlayVideo = true
   useEffect(() => {
-    console.log('[Hero] shouldPlayVideo:', shouldPlayVideo);
-
     if (!shouldPlayVideo) {
       return;
     }
 
     const video = videoRef.current;
-
-    if (!video) {
-      console.error('[Hero Video] videoRef is null');
-      return;
-    }
-
-    if (hasStartedVideoRef.current) {
+    if (!video || hasStartedVideoRef.current) {
       return;
     }
 
@@ -47,57 +139,41 @@ export default function Hero({
         return;
       }
 
-      console.log('[Hero Video] Attempting playback');
-      try {
-        video.currentTime = 0;
+      // If user already interacted during the preloader, attempt unmuted playback
+      if (audioUnlockedRef.current) {
         video.muted = false;
         video.volume = 1;
+        try {
+          await video.play();
+          hasStartedVideoRef.current = true;
+          setIsPlaying(true);
+          return;
+        } catch {
+          // If browser blocked unmuted play (e.g. preloader gesture expired or wasn't recognized):
+          // Fall back to muted playback so video plays smoothly, and re-arm audio unlock for next gesture
+          audioUnlockedRef.current = false;
+          if (attachListenersRef.current) {
+            attachListenersRef.current();
+          }
+        }
+      }
 
+      // Fresh reload behavior: start muted
+      video.muted = true;
+      video.volume = 1;
+
+      try {
         await video.play();
-
         hasStartedVideoRef.current = true;
         setIsPlaying(true);
-      } catch (error) {
-        console.warn('[Hero Video] Audible autoplay blocked by browser policy. Retrying with muted autoplay...');
+      } catch {
+        // Total autoplay failure fallback
         try {
           video.muted = true;
           await video.play();
           hasStartedVideoRef.current = true;
           setIsPlaying(true);
-
-          // Arm immediate unmute on the very first user interaction anywhere on the window or document
-          const handleFirstInteraction = (e) => {
-            const v = videoRef.current;
-            if (!v || userManuallyPausedRef.current) return;
-
-            // If user clicked the play controller directly, let handleTogglePlay handle it
-            if (e && e.target && e.target.closest && e.target.closest('#hero-play-controller')) {
-              return;
-            }
-
-            if (v.muted) {
-              v.muted = false;
-              v.volume = 1;
-              console.log('[Hero Video] Audio unmuted via user interaction');
-            }
-            cleanupListeners();
-          };
-
-          const cleanupListeners = () => {
-            const events = ['pointerdown', 'touchstart', 'touchend', 'click', 'keydown', 'wheel'];
-            events.forEach((evt) => {
-              window.removeEventListener(evt, handleFirstInteraction, true);
-              document.removeEventListener(evt, handleFirstInteraction, true);
-            });
-          };
-
-          const events = ['pointerdown', 'touchstart', 'touchend', 'click', 'keydown', 'wheel'];
-          events.forEach((evt) => {
-            window.addEventListener(evt, handleFirstInteraction, { once: true, passive: true, capture: true });
-            document.addEventListener(evt, handleFirstInteraction, { once: true, passive: true, capture: true });
-          });
-        } catch (mutedError) {
-          console.warn('[Hero Video] Autoplay completely blocked. Activating interactive Hero ink layer directly.');
+        } catch {
           setVideoEnded(true);
         }
       }
@@ -123,9 +199,11 @@ export default function Hero({
 
   // Handle native video ended event
   const handleVideoEnded = () => {
-    console.log('[Hero Ink] Video ended');
     setIsPlaying(false);
     setVideoEnded(true);
+    if (cleanupListenersRef.current) {
+      cleanupListenersRef.current();
+    }
   };
 
   // Toggle Video Play / Pause with replay support when finished
@@ -138,12 +216,15 @@ export default function Hero({
     if (!video) return;
 
     if (!video.paused && !video.ended) {
-      // If video is currently playing muted (e.g. browser started it muted), clicking unmutes with full audio immediately!
+      // If video is currently playing muted, clicking unmutes with full audio without pausing or restarting!
       if (video.muted) {
+        audioUnlockedRef.current = true;
         video.muted = false;
         video.volume = 1;
         setIsPlaying(true);
-        console.log('[Hero Video] Unmuted on controller click');
+        if (cleanupListenersRef.current) {
+          cleanupListenersRef.current();
+        }
         return;
       }
       video.pause();
@@ -153,6 +234,10 @@ export default function Hero({
     } else {
       userManuallyPausedRef.current = false;
       window.__heroUserManuallyPaused = false;
+      audioUnlockedRef.current = true;
+      if (cleanupListenersRef.current) {
+        cleanupListenersRef.current();
+      }
       try {
         if (videoEnded || video.ended || (video.duration > 0 && video.currentTime >= video.duration - 0.05)) {
           video.currentTime = 0;
@@ -163,15 +248,14 @@ export default function Hero({
         await video.play();
         hasStartedVideoRef.current = true;
         setIsPlaying(true);
-      } catch (err) {
-        console.warn('[Hero Video] Audible play failed, trying muted:', err);
+      } catch {
         try {
           video.muted = true;
           await video.play();
           hasStartedVideoRef.current = true;
           setIsPlaying(true);
-        } catch (mutedErr) {
-          console.error('[Hero Video] Play failed completely:', mutedErr);
+        } catch {
+          // Play failed
         }
       }
     }
@@ -323,6 +407,7 @@ export default function Hero({
         poster="/herolast.webp"
         playsInline
         preload="auto"
+        muted
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onEnded={handleVideoEnded}
