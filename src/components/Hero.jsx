@@ -56,12 +56,39 @@ export default function Hero({
         await video.play();
 
         hasStartedVideoRef.current = true;
+        setIsPlaying(true);
       } catch (error) {
         console.warn('[Hero Video] Audible autoplay blocked by browser policy. Retrying with muted autoplay...');
         try {
           video.muted = true;
           await video.play();
           hasStartedVideoRef.current = true;
+          setIsPlaying(true);
+
+          // Arm immediate unmute on the very first user interaction anywhere on the window or document
+          const handleFirstInteraction = () => {
+            const v = videoRef.current;
+            if (v && v.muted && !userManuallyPausedRef.current) {
+              v.muted = false;
+              v.volume = 1;
+              console.log('[Hero Video] Audio unmuted via user interaction');
+            }
+            cleanupListeners();
+          };
+
+          const cleanupListeners = () => {
+            const events = ['pointerdown', 'touchstart', 'touchend', 'click', 'keydown', 'scroll', 'wheel'];
+            events.forEach((evt) => {
+              window.removeEventListener(evt, handleFirstInteraction, true);
+              document.removeEventListener(evt, handleFirstInteraction, true);
+            });
+          };
+
+          const events = ['pointerdown', 'touchstart', 'touchend', 'click', 'keydown', 'scroll', 'wheel'];
+          events.forEach((evt) => {
+            window.addEventListener(evt, handleFirstInteraction, { once: true, passive: true, capture: true });
+            document.addEventListener(evt, handleFirstInteraction, { once: true, passive: true, capture: true });
+          });
         } catch (mutedError) {
           console.warn('[Hero Video] Autoplay completely blocked. Activating interactive Hero ink layer directly.');
           setVideoEnded(true);
@@ -104,6 +131,14 @@ export default function Hero({
     if (!video) return;
 
     if (!video.paused && !video.ended) {
+      // If video is currently playing muted (e.g. browser started it muted), clicking unmutes with full audio immediately!
+      if (video.muted) {
+        video.muted = false;
+        video.volume = 1;
+        setIsPlaying(true);
+        console.log('[Hero Video] Unmuted on controller click');
+        return;
+      }
       video.pause();
       userManuallyPausedRef.current = true;
       window.__heroUserManuallyPaused = true;
@@ -117,6 +152,7 @@ export default function Hero({
           setVideoEnded(false);
         }
         video.muted = false;
+        video.volume = 1;
         await video.play();
         hasStartedVideoRef.current = true;
         setIsPlaying(true);
