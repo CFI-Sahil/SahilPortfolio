@@ -44,6 +44,11 @@ const ProfileCardComponent = ({
   const enterTimerRef = useRef(null);
   const leaveRafRef = useRef(null);
 
+  const isMobileOrTablet = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia('(pointer: coarse)').matches;
+  }, []);
+
   const tiltEngine = useMemo(() => {
     if (!enableTilt) return null;
 
@@ -243,9 +248,11 @@ const ProfileCardComponent = ({
     const pointerLeaveHandler = handlePointerLeave;
     const deviceOrientationHandler = handleDeviceOrientation;
 
-    shell.addEventListener('pointerenter', pointerMoveHandler);
-    shell.addEventListener('pointermove', pointerMoveHandler);
-    shell.addEventListener('pointerleave', pointerLeaveHandler);
+    if (!isMobileOrTablet) {
+      shell.addEventListener('pointerenter', pointerMoveHandler);
+      shell.addEventListener('pointermove', pointerMoveHandler);
+      shell.addEventListener('pointerleave', pointerLeaveHandler);
+    }
 
     const handleClick = () => {
       if (!enableMobileTilt || location.protocol !== 'https:') return;
@@ -289,7 +296,8 @@ const ProfileCardComponent = ({
     handlePointerMove,
     handlePointerEnter,
     handlePointerLeave,
-    handleDeviceOrientation
+    handleDeviceOrientation,
+    isMobileOrTablet
   ]);
 
   const cardRadius = '28px';
@@ -350,7 +358,7 @@ const ProfileCardComponent = ({
   return (
     <div
       ref={wrapRef}
-      className={`relative touch-none select-none ${className}`.trim()}
+      className={`relative select-none ${className}`.trim()}
       style={{ perspective: '500px', transform: 'translate3d(0, 0, 0.1px)', ...cardStyle }}
     >
       <style>{`
@@ -387,10 +395,12 @@ const ProfileCardComponent = ({
             background: 'linear-gradient(180deg, #182035 0%, #0a0d18 100%)'
           }}
           onMouseEnter={e => {
+            if (isMobileOrTablet) return;
             e.currentTarget.style.transition = 'none';
             e.currentTarget.style.transform = 'translateZ(0) rotateX(var(--rotate-y)) rotateY(var(--rotate-x))';
           }}
           onMouseLeave={e => {
+            if (isMobileOrTablet) return;
             const shell = shellRef.current;
             if (shell?.classList.contains('entering')) {
               e.currentTarget.style.transition = 'transform 180ms ease-out';
