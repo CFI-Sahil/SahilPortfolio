@@ -121,7 +121,7 @@ export default function About() {
           {/* LEFT COLUMN: Sticky React Bits ProfileCard */}
           <div
             ref={cardWrapperRef}
-            className="w-full lg:w-[42%] flex justify-center lg:justify-start lg:sticky lg:top-28 sm:lg:top-32 will-change-transform z-10"
+            className="w-full lg:w-[42%] flex justify-center lg:justify-start lg:sticky lg:top-28 sm:lg:top-32 px-5 sm:px-0 will-change-transform z-10"
           >
             <ProfileCard
               avatarUrl="/about-portrait.webp"
