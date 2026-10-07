@@ -66,9 +66,16 @@ export default function Hero({
           setIsPlaying(true);
 
           // Arm immediate unmute on the very first user interaction anywhere on the window or document
-          const handleFirstInteraction = () => {
+          const handleFirstInteraction = (e) => {
             const v = videoRef.current;
-            if (v && v.muted && !userManuallyPausedRef.current) {
+            if (!v || userManuallyPausedRef.current) return;
+
+            // If user clicked the play controller directly, let handleTogglePlay handle it
+            if (e && e.target && e.target.closest && e.target.closest('#hero-play-controller')) {
+              return;
+            }
+
+            if (v.muted) {
               v.muted = false;
               v.volume = 1;
               console.log('[Hero Video] Audio unmuted via user interaction');
@@ -77,14 +84,14 @@ export default function Hero({
           };
 
           const cleanupListeners = () => {
-            const events = ['pointerdown', 'touchstart', 'touchend', 'click', 'keydown', 'scroll', 'wheel'];
+            const events = ['pointerdown', 'touchstart', 'touchend', 'click', 'keydown', 'wheel'];
             events.forEach((evt) => {
               window.removeEventListener(evt, handleFirstInteraction, true);
               document.removeEventListener(evt, handleFirstInteraction, true);
             });
           };
 
-          const events = ['pointerdown', 'touchstart', 'touchend', 'click', 'keydown', 'scroll', 'wheel'];
+          const events = ['pointerdown', 'touchstart', 'touchend', 'click', 'keydown', 'wheel'];
           events.forEach((evt) => {
             window.addEventListener(evt, handleFirstInteraction, { once: true, passive: true, capture: true });
             document.addEventListener(evt, handleFirstInteraction, { once: true, passive: true, capture: true });
@@ -186,6 +193,37 @@ export default function Hero({
       }
     }
   }, [isCovered, shouldPlayVideo, videoEnded]);
+
+  // Resume video playback automatically when tab/window regains focus or visibility
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      const video = videoRef.current;
+      if (!video || !hasStartedVideoRef.current || videoEnded || userManuallyPausedRef.current) return;
+
+      if (document.visibilityState === 'visible') {
+        if (video.paused && !video.ended && !isCovered && shouldPlayVideo) {
+          video.play().catch(() => {});
+        }
+      }
+    };
+
+    const handleWindowFocus = () => {
+      const video = videoRef.current;
+      if (!video || !hasStartedVideoRef.current || videoEnded || userManuallyPausedRef.current) return;
+
+      if (video.paused && !video.ended && !isCovered && shouldPlayVideo) {
+        video.play().catch(() => {});
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleWindowFocus);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleWindowFocus);
+    };
+  }, [shouldPlayVideo, videoEnded, isCovered]);
 
   // 3. Line-by-line typography reveal triggered as preloader panels split
   useEffect(() => {
@@ -371,6 +409,7 @@ export default function Hero({
           }`}
       >
         <button
+          id="hero-play-controller"
           type="button"
           onClick={handleTogglePlay}
           aria-label={isPlaying ? 'Pause video' : 'Play video'}
