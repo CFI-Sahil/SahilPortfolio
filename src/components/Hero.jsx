@@ -26,6 +26,8 @@ export default function Hero({
   const audioUnlockedRef = useRef(false);
   const cleanupListenersRef = useRef(null);
   const attachListenersRef = useRef(null);
+  const ignoreContinuousEventsRef = useRef(false);
+  const isAttemptingUnlockRef = useRef(false);
 
   // Interaction event list covering all user interactions from page load until video finishes
   const INTERACTION_EVENTS = [
@@ -57,7 +59,12 @@ export default function Hero({
     cleanupListenersRef.current = cleanupListeners;
 
     const handleFirstInteraction = async (e) => {
-      if (audioUnlockedRef.current || videoEnded) return;
+      if (audioUnlockedRef.current || videoEnded || isAttemptingUnlockRef.current) return;
+
+      const isContinuous = e && ['pointermove', 'mousemove', 'wheel', 'scroll'].includes(e.type);
+      if (isContinuous && ignoreContinuousEventsRef.current) {
+        return;
+      }
 
       // If user clicked the play controller directly, let handleTogglePlay handle it
       if (
@@ -72,6 +79,8 @@ export default function Hero({
 
       const video = videoRef.current;
       if (!video) return;
+
+      isAttemptingUnlockRef.current = true;
 
       // Preserve current playback position seamlessly: do not reset currentTime, do not reload
       video.muted = false;
@@ -89,7 +98,11 @@ export default function Hero({
           // Keep playing muted seamlessly so the video never freezes or pauses
           video.muted = true;
           video.play().catch(() => {});
-          // Do not mark audioUnlockedRef or remove listeners yet; subsequent interaction will unlock
+          if (isContinuous) {
+            ignoreContinuousEventsRef.current = true;
+          }
+        } finally {
+          isAttemptingUnlockRef.current = false;
         }
       } else if (shouldPlayVideo && !video.ended && !userManuallyPausedRef.current) {
         // Video was supposed to be playing but was paused: resume seamlessly
@@ -101,11 +114,17 @@ export default function Hero({
         } catch {
           video.muted = true;
           video.play().catch(() => {});
+          if (isContinuous) {
+            ignoreContinuousEventsRef.current = true;
+          }
+        } finally {
+          isAttemptingUnlockRef.current = false;
         }
       } else {
         // Interacted during preloader before video starts: unlock audio immediately
         audioUnlockedRef.current = true;
         cleanupListeners();
+        isAttemptingUnlockRef.current = false;
       }
     };
 
@@ -152,6 +171,7 @@ export default function Hero({
           // If browser blocked unmuted play (e.g. preloader gesture expired or wasn't recognized):
           // Fall back to muted playback so video plays smoothly, and re-arm audio unlock for next gesture
           audioUnlockedRef.current = false;
+          ignoreContinuousEventsRef.current = true;
           if (attachListenersRef.current) {
             attachListenersRef.current();
           }
