@@ -124,7 +124,7 @@ export default function About() {
             className="w-full lg:w-[42%] flex justify-center lg:justify-start lg:sticky lg:top-28 sm:lg:top-32 will-change-transform z-10"
           >
             <ProfileCard
-              avatarUrl="/about-portrait.jpg"
+              avatarUrl="/about-portrait.webp"
               name="SAHIL GUPTA"
               title="AI / FULL-STACK ENGINEER"
               handle="cfi-sahil"

@@ -399,8 +399,8 @@ export default function HeroInkReveal({ isEnabled = false, parentRef = null }) {
         return texture;
       }
 
-      const texBase = loadTexture(gl, '/herolast.png?v=3', 0);
-      const texCyber = loadTexture(gl, '/herocyber.png?v=3', 1);
+      const texBase = loadTexture(gl, '/herolast.webp', 0);
+      const texCyber = loadTexture(gl, '/herocyber.webp', 1);
 
       gl.uniform1i(uLocs.textureBase, 0);
       gl.uniform1i(uLocs.textureCyber, 1);
@@ -506,8 +506,10 @@ export default function HeroInkReveal({ isEnabled = false, parentRef = null }) {
         />
       ) : (
         <img
-          src="/herolast.png?v=3"
+          src="/herolast.webp"
           alt="Sahil Gupta"
+          width="1689"
+          height="931"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
         />
       )}

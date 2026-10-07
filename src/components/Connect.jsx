@@ -181,10 +181,13 @@ export default function Connect() {
               className="relative w-full max-w-[220px] sm:max-w-[280px] lg:max-w-[360px] flex items-end justify-center pointer-events-auto overflow-hidden lg:overflow-visible h-full lg:ml-[15%]"
             >
               <img
-                src="/2FinalPic-Photoroom.png"
-                alt="Sahil Gupta"
+                src="/2FinalPic-Photoroom.webp"
+                alt="Sahil Gupta — AI Developer & Full-Stack Engineer"
                 className="w-full h-full object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)] will-change-transform"
                 loading="lazy"
+                decoding="async"
+                width="360"
+                height="500"
               />
             </div>
           </div>
