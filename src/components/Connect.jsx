@@ -147,7 +147,7 @@ export default function Connect() {
         <div className="flex-1 relative w-full flex flex-col lg:flex-row lg:items-end mt-4 lg:mt-8">
 
           {/* GIANT TYPOGRAPHY - Centered/Right */}
-          <div className="absolute inset-0 flex flex-col justify-start lg:items-end lg:justify-start pt-[45vh] sm:pt-[45vh] lg:pt-[18vh] z-30 lg:z-10 pointer-events-none pb-32 lg:pb-0 lg:pr-[10%] xl:pr-[16%]">
+          <div className="absolute inset-0 flex flex-col justify-start lg:items-end lg:justify-start pt-[38vh] sm:pt-[40vh] lg:pt-[18vh] z-30 lg:z-10 pointer-events-none pb-32 lg:pb-0 lg:pr-[10%] xl:pr-[16%]">
             <div className="relative inline-block text-center lg:text-left">
 
               <h2 className="font-display text-[clamp(6.5rem,14vw,20rem)] font-bold tracking-tight uppercase leading-[0.85] lg:leading-[0.8] z-10 relative">
@@ -175,10 +175,10 @@ export default function Connect() {
           </div>
 
           {/* PORTRAIT - Left */}
-          <div className="relative z-10 lg:z-20 w-full lg:w-[50%] flex items-end justify-center lg:justify-center pointer-events-none order-2 lg:order-1 mt-auto h-[65vh] sm:h-[65vh] lg:h-auto lg:min-h-[75vh]">
+          <div className="relative z-10 lg:z-20 w-full lg:w-[50%] flex items-end justify-center lg:justify-center pointer-events-none order-2 lg:order-1 mt-auto h-[85vh] sm:h-[85vh] lg:h-auto lg:min-h-[75vh]">
             <div
               ref={portraitWrapRef}
-              className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[360px] flex items-end justify-center pointer-events-auto overflow-hidden lg:overflow-visible h-full lg:ml-[15%]"
+              className="relative w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[360px] flex items-end justify-center pointer-events-auto overflow-hidden lg:overflow-visible h-full lg:ml-[15%]"
             >
               <img
                 src="/2FinalPic-Photoroom.webp"
