@@ -29,8 +29,15 @@ export default function Hero({
   const ignoreContinuousEventsRef = useRef(false);
   const isAttemptingUnlockRef = useRef(false);
 
+  // Mobile/Tablet detection to prevent global interaction listeners
+  const isMobileOrTablet = () => {
+    if (typeof window === 'undefined') return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia('(pointer: coarse)').matches;
+  };
+
   // Interaction event list covering all user interactions from page load until video finishes
-  const INTERACTION_EVENTS = [
+  // Empty array on mobile/tablet so audio ONLY unlocks via explicit Play button click
+  const INTERACTION_EVENTS = isMobileOrTablet() ? [] : [
     'pointermove',
     'mousemove',
     'pointerdown',
@@ -417,8 +424,8 @@ export default function Hero({
     <section
       id="hero"
       ref={heroRef}
-      className="relative w-screen h-screen overflow-hidden bg-[#0A0A0A] flex items-center"
-      style={{ width: '100vw', height: '100vh' }}
+      className="relative w-screen overflow-hidden bg-[#0A0A0A] flex items-center"
+      style={{ width: '100vw', height: '100svh' }}
     >
       {/* Layer 1: Full-screen Cinematic Video Background */}
       <video
@@ -510,7 +517,7 @@ export default function Hero({
 
       {/* Layer 4: Dynamic Bottom-Right Video Play / Pause Controller (Only for Hero section) */}
       <div
-        className={`absolute bottom-6 sm:bottom-10 right-[var(--page-padding)] z-10 transition-opacity duration-300 ${isCovered ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
+        className={`absolute bottom-8 sm:bottom-10 right-[var(--page-padding)] z-20 transition-opacity duration-300 ${isCovered ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
           }`}
       >
         <button
