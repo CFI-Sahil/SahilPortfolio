@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://sahilgupta.dev/</loc>
+    <loc>https://sahil-portfolio-gupta.vercel.app/</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://sahilgupta.dev/og-image.png</image:loc>
+      <image:loc>https://sahil-portfolio-gupta.vercel.app/og-image.png</image:loc>
       <image:title>Sahil Gupta — AI Developer &amp; Full-Stack Engineer Portfolio</image:title>
     </image:image>
   </url>

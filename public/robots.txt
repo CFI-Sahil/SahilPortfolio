@@ -2,5 +2,5 @@
 User-agent: *
 Allow: /
 
-# Sitemap location (update domain upon live deployment)
-Sitemap: https://sahilgupta.dev/sitemap.xml
+# Sitemap location
+Sitemap: https://sahil-portfolio-gupta.vercel.app/sitemap.xml

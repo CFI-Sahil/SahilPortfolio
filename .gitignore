@@ -27,11 +27,14 @@ dist-ssr
 *.sw?
 
 # Unused Large Videos & Media at Root
-FinalWeb.mp4
-Hero.mp4
-herocyber.png
-herolast.png
-favicon.png
+/FinalWeb.mp4
+/Hero.mp4
+/herocyber.png
+/herolast.png
+/favicon.png
+
+# Explicitly track required public video
+!public/Hero.mp4
 
 # Documentation & Temporary Internal Files
 Master_SEO_Prompt.md
