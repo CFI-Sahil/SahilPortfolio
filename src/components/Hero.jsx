@@ -246,7 +246,7 @@ export default function Hero({
       <video
         ref={videoRef}
         src="/Hero.mp4"
-        poster="/Hero-poster.webp"
+        poster="/herolast.webp"
         playsInline
         preload="auto"
         onPlay={() => setIsPlaying(true)}
