@@ -34,6 +34,13 @@ const ScrollReveal = ({
     const el = containerRef.current;
     if (!el) return;
 
+    // Mobile/Tablet check to disable text reveal animations on small devices
+    const isMobileOrTablet = typeof window !== 'undefined' && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia('(pointer: coarse)').matches);
+
+    if (isMobileOrTablet) {
+      return;
+    }
+
     const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
 
     const ctx = gsap.context(() => {
