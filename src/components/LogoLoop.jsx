@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 /**
  * React Bits LogoLoop Component
@@ -17,6 +17,11 @@ export default function LogoLoop({
   // Duplicate items array to ensure seamless, glitch-free continuous looping
   const duplicatedItems = [...items, ...items];
 
+  const isMobileOrTablet = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia('(pointer: coarse)').matches;
+  }, []);
+
   return (
     <div
       className={`relative w-full overflow-hidden logo-loop-mask py-3 select-none ${className}`}
@@ -29,10 +34,10 @@ export default function LogoLoop({
           animationPlayState: 'running',
         }}
         onMouseEnter={(e) => {
-          if (pauseOnHover) e.currentTarget.style.animationPlayState = 'paused';
+          if (pauseOnHover && !isMobileOrTablet) e.currentTarget.style.animationPlayState = 'paused';
         }}
         onMouseLeave={(e) => {
-          if (pauseOnHover) e.currentTarget.style.animationPlayState = 'running';
+          if (pauseOnHover && !isMobileOrTablet) e.currentTarget.style.animationPlayState = 'running';
         }}
       >
         {duplicatedItems.map((tech, index) => {
@@ -41,7 +46,7 @@ export default function LogoLoop({
             <div
               key={`${tech.name}-${index}`}
               aria-hidden={isDuplicate}
-              className="group flex items-center pr-10 sm:pr-14 md:pr-16 cursor-pointer transition-all duration-300"
+              className={`${!isMobileOrTablet ? 'group cursor-pointer' : ''} flex items-center pr-10 sm:pr-14 md:pr-16 transition-all duration-300`}
             >
               <div className="flex items-center gap-2.5 sm:gap-3 px-3 py-2">
               {/* Technology Icon */}
