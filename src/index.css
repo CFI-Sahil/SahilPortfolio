@@ -89,3 +89,26 @@
   }
 }
 
+/* Custom Global Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-page, #F5F1EA);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary, #0A0A0A);
+  border-radius: 8px;
+  border: 2px solid var(--color-page, #F5F1EA); /* Creates a padded look */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-red, #AF0E06);
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary, #0A0A0A) var(--color-page, #F5F1EA);
+}
