@@ -130,7 +130,7 @@ export default function About() {
               handle="cfi-sahil"
               status="Building Intelligent Systems"
               contactText="VIEW RESUME"
-              onContactClick={() => window.open('/Sahil_Gupta_Resume.pdf', '_blank')}
+              contactHref="/Sahil_Gupta_Resume.pdf"
               showUserInfo={true}
               enableTilt={true}
               behindGlowEnabled={true}

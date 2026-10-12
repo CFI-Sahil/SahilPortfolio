@@ -35,6 +35,7 @@ const ProfileCardComponent = ({
   handle = 'cfi-sahil',
   status = 'Building Intelligent Systems',
   contactText = 'VIEW RESUME',
+  contactHref = '/Sahil_Gupta_Resume.pdf',
   showUserInfo = true,
   onContactClick
 }) => {
@@ -325,15 +326,16 @@ const ProfileCardComponent = ({
   );
 
   const handleContactClick = useCallback((e) => {
+    e.stopPropagation();
     if (onContactClick) {
       onContactClick(e);
-    } else {
+    } else if (!contactHref) {
       const contactEl = document.querySelector('#contact');
       if (contactEl) {
         contactEl.scrollIntoView({ behavior: 'smooth' });
       }
     }
-  }, [onContactClick]);
+  }, [onContactClick, contactHref]);
 
   // Specular radial flare that follows the mouse
   const glareStyle = {
@@ -547,15 +549,32 @@ const ProfileCardComponent = ({
                       <div className="text-[11px] text-white/70 leading-none font-body">{status}</div>
                     </div>
                   </div>
-                  <button
-                    className="border border-white/15 bg-white/10 hover:bg-white/20 rounded-lg px-3.5 py-2.5 text-[11px] font-semibold text-white/95 cursor-pointer backdrop-blur-[10px] transition-all duration-200 ease-out hover:border-white/30 hover:-translate-y-px active:scale-95 shadow-sm"
-                    onClick={handleContactClick}
-                    style={{ pointerEvents: 'auto', display: 'block', gridArea: 'auto', borderRadius: '8px' }}
-                    type="button"
-                    aria-label={`Contact ${name || 'user'}`}
-                  >
-                    {contactText}
-                  </button>
+                  {contactHref ? (
+                    <a
+                      href={contactHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="border border-white/15 bg-white/10 hover:bg-white/20 rounded-lg px-3.5 py-2.5 text-[11px] font-semibold text-white/95 cursor-pointer backdrop-blur-[10px] transition-all duration-200 ease-out hover:border-white/30 hover:-translate-y-px active:scale-95 shadow-sm inline-flex items-center justify-center text-center no-underline"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onContactClick) onContactClick(e);
+                      }}
+                      style={{ pointerEvents: 'auto', display: 'inline-flex', gridArea: 'auto', borderRadius: '8px' }}
+                      aria-label={`Contact ${name || 'user'}`}
+                    >
+                      {contactText}
+                    </a>
+                  ) : (
+                    <button
+                      className="border border-white/15 bg-white/10 hover:bg-white/20 rounded-lg px-3.5 py-2.5 text-[11px] font-semibold text-white/95 cursor-pointer backdrop-blur-[10px] transition-all duration-200 ease-out hover:border-white/30 hover:-translate-y-px active:scale-95 shadow-sm"
+                      onClick={handleContactClick}
+                      style={{ pointerEvents: 'auto', display: 'block', gridArea: 'auto', borderRadius: '8px' }}
+                      type="button"
+                      aria-label={`Contact ${name || 'user'}`}
+                    >
+                      {contactText}
+                    </button>
+                  )}
                 </div>
               )}
             </div>
